@@ -1,3 +1,5 @@
+import * as fs from "fs";
+
 // 工作目录设置 - 默认使用项目根目录下的 .data 文件夹
 export const WORK_DIR: string = process.env.WORK_DIR || '.data';
 
@@ -12,7 +14,6 @@ export function initializeWorkDir(): void {
   try {
     if (!WORK_DIR) return;
     
-    const fs = require('fs');
     if (!fs.existsSync(WORK_DIR)) {
       fs.mkdirSync(WORK_DIR, { recursive: true });
       console.log(`✅ 工作目录已创建: ${WORK_DIR}`);

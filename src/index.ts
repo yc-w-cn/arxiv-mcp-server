@@ -25,7 +25,7 @@ server.registerTool(
     title: "搜索 arXiv 论文",
     description: "搜索 arXiv 论文",
     inputSchema: z.object({
-      query: z1.string().describe("搜索英文关键词"),
+      query: z.string().describe("搜索英文关键词"),
       maxResults: z.number().default(5).describe("最大结果数量")
     })
   },
