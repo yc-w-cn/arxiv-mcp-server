@@ -1,10 +1,7 @@
-// 工具处理服务
-
-import * as fs from "fs";
 import * as path from "path";
 import { WORK_DIR } from '../config/config.js';
-import { searchArxivPapers, downloadArxivPdf } from '../tools/arxivTools.js';
-import { parsePdfToText } from '../tools/pdfTools.js';
+import { searchArxivPapers, downloadArxivPdf } from '../tools/arxiv';
+import { parsePdfToText } from '../tools/pdf';
 
 // 完整流程处理 arXiv 论文
 export async function processArxivPaper(arxivId: string): Promise<string[]> {
@@ -41,24 +38,4 @@ export async function processArxivPaper(arxivId: string): Promise<string[]> {
   }
 
   return results;
-}
-
-// 清空工作区所有文件
-export function clearWorkdir(): { removed: string[], message: string } {
-  const files = fs.readdirSync(WORK_DIR).map(f => path.join(WORK_DIR, f));
-  const removed: string[] = [];
-  for (const file of files) {
-    try {
-      if (fs.lstatSync(file).isFile()) {
-        fs.unlinkSync(file);
-        removed.push(path.basename(file));
-      }
-    } catch (err) {
-      // ignore
-    }
-  }
-  return {
-    removed,
-    message: `工作区清理完成，删除文件: ${removed.join(', ')}`
-  };
 }

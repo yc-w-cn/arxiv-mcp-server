@@ -4,7 +4,7 @@ import { ArXivClient } from '@agentic/arxiv';
 import axios from "axios";
 import * as fs from "fs";
 import * as path from "path";
-import { WORK_DIR } from '../config/config.js';
+import { WORK_DIR } from '../config';
 
 // 初始化 ArXiv 客户端
 const arxivClient = new ArXivClient({});

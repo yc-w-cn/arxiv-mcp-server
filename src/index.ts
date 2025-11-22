@@ -3,10 +3,10 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from 'zod/v3';
 
 // 导入配置和服务
-import { validateEnvironment, initializeWorkDir } from './config/config';
-import { searchArxivPapers, downloadArxivPdf } from './tools/arxivTools';
-import { parsePdfToText } from './tools/pdfTools';
-import { processArxivPaper, clearWorkdir } from './services/toolService';
+import { validateEnvironment, initializeWorkDir } from './config';
+import { searchArxivPapers, downloadArxivPdf } from './tools/arxiv';
+import { parsePdfToText } from './tools/pdf';
+import { processArxivPaper, clearWorkdir } from './services';
 
 // 验证环境变量并初始化工作目录
 validateEnvironment();
@@ -25,7 +25,7 @@ server.registerTool(
     title: "搜索 arXiv 论文",
     description: "搜索 arXiv 论文",
     inputSchema: z.object({
-      query: z.string().describe("搜索英文关键词"),
+      query: z1.string().describe("搜索英文关键词"),
       maxResults: z.number().default(5).describe("最大结果数量")
     })
   },

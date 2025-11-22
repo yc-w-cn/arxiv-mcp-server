@@ -3,7 +3,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { PdfReader } from "pdfreader";
-import { WORK_DIR } from '../config/config.js';
+import { WORK_DIR } from '../config';
 
 // 提取 PDF 文本内容
 export async function extractPdfText(pdfPath: string): Promise<string> {

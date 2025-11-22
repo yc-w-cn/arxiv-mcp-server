@@ -2,19 +2,19 @@
     "name": "@yc-w-cn/arxiv-mcp-server",
     "version": "1.1.6",
     "description": "一个基于arxiv的论文解读器，将arxiv的论文转为通俗易懂的文章和语音",
-    "main": "build/index.js",
+    "main": "dist/index.js",
     "bin": {
-        "arxiv-mcp-server": "build/index.js"
+        "arxiv-mcp-server": "dist/index.js"
     },
     "type": "module",
     "scripts": {
-        "build": "tsc && chmod +x build/index.js",
-        "start": "node build/index.js",
+        "build": "tsup",
+        "start": "node dist/index.js",
         "dev": "tsx src/index.ts",
-        "prepublishOnly": "npm run build"
+        "prepublishOnly": "pnpm run build"
     },
     "files": [
-        "build/**/*",
+        "dist/**/*",
         "README.md"
     ],
     "keywords": [
@@ -53,6 +53,7 @@
     "devDependencies": {
         "@types/node": "^24.10.1",
         "@types/pdf-parse": "^1.1.5",
+        "tsup": "^8.5.1",
         "tsx": "^4.20.6",
         "typescript": "^5.9.3"
     },

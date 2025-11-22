@@ -1,17 +1,10 @@
-// 配置文件
-
-// 工作目录设置
-export const WORK_DIR: string = process.env.WORK_DIR || '';
+// 工作目录设置 - 默认使用项目根目录下的 .data 文件夹
+export const WORK_DIR: string = process.env.WORK_DIR || '.data';
 
 // 验证环境变量配置
 export function validateEnvironment(): void {
-  if (!WORK_DIR) {
-    console.error("❌ 错误: 必须设置 WORK_DIR 环境变量");
-    console.error("请设置工作目录，例如:");
-    console.error("  export WORK_DIR=/path/to/your/work/directory");
-    console.error("  或者在运行时指定: WORK_DIR=/path/to/dir node server.js");
-    process.exit(1);
-  }
+  // 不再需要强制验证，因为已经有默认值
+  console.log(`📁 工作目录: ${WORK_DIR}`);
 }
 
 // 初始化工作目录

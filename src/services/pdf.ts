@@ -1,11 +1,12 @@
-// 工具函数：解析 PDF 并返回 LLM 翻译后的中文 Markdown
+import * as fs from "fs";
+import * as path from "path";
+import { WORK_DIR } from '../config';
+import { extractPdfText } from '../tools/pdf';
+
+
+// 解析 PDF 并返回 Markdown
 export async function parsePdfToText(arxivId: string): Promise<string> {
   try {
-    const fs = require('fs');
-    const path = require('path');
-    const { WORK_DIR } = await import('../config/config.js');
-    const { extractPdfText } = await import('../tools/pdfTools.js');
-    
     const cleanArxivId = arxivId.replace(/v\d+$/, '');
     const pdfPath = path.join(WORK_DIR, `${cleanArxivId}.pdf`);
     const mdPath = path.join(WORK_DIR, `${cleanArxivId}_md_zh.md`);
