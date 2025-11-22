@@ -81,16 +81,45 @@ export async function downloadArxivPdf(input: string): Promise<string> {
       }
     });
 
+    // 获取文件总大小
+    const totalBytes = parseInt(response.headers['content-length'] || '0');
+    let downloadedBytes = 0;
+    let lastProgress = 0;
+
     const writer = fs.createWriteStream(pdfPath);
+    
+    // 监听数据流进度
+    response.data.on('data', (chunk: Buffer) => {
+      downloadedBytes += chunk.length;
+      
+      // 每下载 1MB 或进度变化超过 5% 时显示进度
+      const progress = totalBytes > 0 ? Math.round((downloadedBytes / totalBytes) * 100) : 0;
+      if (downloadedBytes % (1024 * 1024) === 0 || progress - lastProgress >= 5) {
+        lastProgress = progress;
+        if (totalBytes > 0) {
+          const downloadedMB = (downloadedBytes / (1024 * 1024)).toFixed(2);
+          const totalMB = (totalBytes / (1024 * 1024)).toFixed(2);
+          console.log(`下载进度: ${progress}% (${downloadedMB} MB / ${totalMB} MB)`);
+        } else {
+          const downloadedMB = (downloadedBytes / (1024 * 1024)).toFixed(2);
+          console.log(`已下载: ${downloadedMB} MB`);
+        }
+      }
+    });
+
     response.data.pipe(writer);
 
     return new Promise<string>((resolve, reject) => {
       writer.on('finish', () => {
-        console.log(`PDF 下载完成: ${pdfPath}`);
+        console.log(`✅ PDF 下载完成: ${pdfPath}`);
+        if (totalBytes > 0) {
+          const totalMB = (totalBytes / (1024 * 1024)).toFixed(2);
+          console.log(`📊 文件大小: ${totalMB} MB`);
+        }
         resolve(pdfPath);
       });
       writer.on('error', (error) => {
-        console.error(`PDF 下载失败: ${error}`);
+        console.error(`❌ PDF 下载失败: ${error}`);
         if (fs.existsSync(pdfPath)) {
           fs.unlinkSync(pdfPath);
         }
